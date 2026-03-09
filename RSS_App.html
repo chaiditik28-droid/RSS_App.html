@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RSS : Risk Safety Suggestion — AAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#f1f5f9;--card:#fff;--border:#e2e8f0;--bd:#cbd5e1;
+  --text:#1e293b;--muted:#64748b;--dim:#94a3b8;
+  --blue:#1d4ed8;--green:#059669;--red:#dc2626;--amber:#d97706;
+  --purple:#7c3aed;--orange:#ea580c;--teal:#0891b2;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.06);
+  --shL:0 8px 32px rgba(0,0,0,.12);
+}
+body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+#topbar{background:linear-gradient(135deg,#1e3a8a,#1d4ed8);padding:12px 24px;box-shadow:0 2px 10px rgba(30,58,138,.3);}
+#ti{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:14px;}
+.logo{background:#fff;color:#1e3a8a;font-weight:900;padding:5px 10px;border-radius:6px;font-size:15px;letter-spacing:1px;}
+.atitle{font-size:18px;font-weight:800;color:#fff;line-height:1.2;}
+.asub{font-size:11px;color:#93c5fd;}
+.docn{margin-left:auto;font-size:11px;color:#93c5fd;background:rgba(255,255,255,.12);padding:4px 10px;border-radius:5px;border:1px solid rgba(255,255,255,.18);}
+#sw{display:flex;align-items:center;gap:5px;font-size:11px;color:#93c5fd;padding:4px 10px;background:rgba(255,255,255,.1);border-radius:5px;cursor:pointer;}
+#sw:hover{background:rgba(255,255,255,.2);}
+.dot{width:7px;height:7px;border-radius:50%;background:#10b981;animation:bk 2s infinite;}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:.2}}
+/* Firebase banner */
+#fbb{background:#fff7ed;border-bottom:2px solid #fed7aa;padding:10px 24px;}
+#tabbar{background:#fff;border-bottom:2px solid var(--border);padding:0 24px;box-shadow:var(--sh);}
+#tbi{max-width:1400px;margin:0 auto;display:flex;}
+.tb{padding:11px 18px;border:none;cursor:pointer;font-size:13px;font-weight:700;font-family:'Sarabun',sans-serif;background:transparent;color:var(--muted);border-bottom:3px solid transparent;transition:all .18s;border-radius:4px 4px 0 0;margin-bottom:-2px;white-space:nowrap;}
+.tb:hover{color:var(--text);background:#f8fafc;}
+.tb-db.on{color:#1d4ed8;border-color:#1d4ed8;background:#eff6ff;}
+.tb-em.on{color:#059669;border-color:#059669;background:#ecfdf5;}
+.tb-jp.on{color:#7c3aed;border-color:#7c3aed;background:#f5f3ff;}
+.tb-kp.on{color:#0891b2;border-color:#0891b2;background:#ecfeff;}
+.tb-sv.on{color:#ea580c;border-color:#ea580c;background:#fff7ed;}
+#main{max-width:1400px;margin:0 auto;padding:22px;}
+.pn{display:none;}.pn.on{display:block;}
+/* stat cards */
+.scs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:#fff;border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .18s;box-shadow:var(--sh);border:2px solid transparent;}
+.sc:hover{transform:translateY(-2px);box-shadow:var(--shL);}
+.sc.active{border-color:currentColor;}
+.sv{font-size:32px;font-weight:900;line-height:1;}
+.sl{font-size:11px;color:var(--muted);margin-top:3px;}
+/* charts */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.charts-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
+.chart-card{background:#fff;border-radius:14px;border:1px solid var(--border);padding:16px;box-shadow:var(--sh);}
+.chart-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
+/* filter */
+.fbr{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.fb{padding:5px 13px;border-radius:20px;border:1px solid var(--border);cursor:pointer;font-size:12px;font-weight:600;font-family:'Sarabun',sans-serif;background:#fff;color:var(--muted);transition:all .15s;}
+/* table */
+.tw{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:auto;box-shadow:var(--sh);}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:780px;}
+thead tr{background:#f8fafc;border-bottom:2px solid var(--border);}
+th{padding:10px 11px;text-align:left;font-weight:700;font-size:11px;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
+tbody tr:hover{background:#fafafa;}
+td{padding:8px 11px;vertical-align:middle;}
+.badge{padding:3px 9px;border-radius:14px;font-size:11px;font-weight:700;display:inline-block;white-space:nowrap;}
+.btn{padding:4px 10px;border:none;border-radius:5px;cursor:pointer;font-size:11.5px;font-weight:600;font-family:'Sarabun',sans-serif;transition:opacity .15s;white-space:nowrap;}
+.btn:hover{opacity:.82;}
+.b-blue{background:#1d4ed8;color:#fff;}.b-green{background:#059669;color:#fff;}
+.b-red{background:#dc2626;color:#fff;}.b-gray{background:#e2e8f0;color:#475569;}
+.b-purple{background:#7c3aed;color:#fff;}.b-orange{background:#ea580c;color:#fff;}
+.b-teal{background:#0891b2;color:#fff;}.b-out{background:#fff;color:var(--muted);border:1px solid var(--bd);}
+/* card/form */
+.card{background:#fff;border-radius:14px;border:1px solid var(--border);padding:24px;box-shadow:var(--sh);}
+.rh{background:#fff;border-radius:14px;padding:15px 20px;margin-bottom:16px;box-shadow:var(--sh);border:1px solid var(--border);}
+.sbox{border-radius:10px;padding:16px;margin-bottom:12px;border:1.5px solid;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
+.lb{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;}
+input[type=text],input[type=date],textarea,select{width:100%;padding:8px 10px;background:#fff;border:1.5px solid var(--bd);border-radius:7px;color:var(--text);font-size:13px;font-family:'Sarabun',sans-serif;outline:none;transition:border .18s;}
+input:focus,textarea:focus,select:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1);}
+select{cursor:pointer;}
+textarea{resize:vertical;}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
+.ci{display:flex;align-items:center;gap:7px;cursor:pointer;padding:7px 10px;border-radius:7px;background:#f8fafc;border:1.5px solid var(--border);transition:all .13s;user-select:none;}
+.ci.on{background:#eff6ff;border-color:#3b82f6;}
+.ci input{accent-color:#1d4ed8;width:13px;height:13px;cursor:pointer;}
+.ci span{font-size:12px;color:var(--muted);}.ci.on span{color:#1d4ed8;font-weight:600;}
+.ri{display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 12px;border-radius:7px;background:#f8fafc;border:1.5px solid var(--border);margin-bottom:5px;transition:all .13s;user-select:none;}
+.ri input{width:13px;height:13px;cursor:pointer;}
+.ri .rlv{font-weight:800;font-size:13px;}.ri .rds{font-size:12px;color:var(--muted);}
+.ib{background:#f8fafc;border:2px dashed #cbd5e1;border-radius:9px;padding:10px;text-align:center;min-height:145px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;}
+.ib:hover{border-color:#3b82f6;background:#eff6ff;}
+/* typed sig */
+.sig-type-wrap{border:1.5px solid;border-radius:8px;overflow:hidden;background:#fff;margin-bottom:4px;}
+.sig-type-inp{width:100%;border:none;outline:none;padding:10px 14px;font-size:28px;font-family:'Dancing Script','Brush Script MT',cursive;color:#1a3a8f;background:transparent;font-family:'Sarabun',sans-serif;font-style:italic;font-weight:700;letter-spacing:2px;}
+.sig-preview{padding:8px 14px;min-height:52px;background:#fafcff;border-top:1px solid #e0e7ff;font-size:30px;font-style:italic;font-weight:700;color:#1a3a8f;letter-spacing:2px;font-family:'Sarabun',sans-serif;}
+/* toast */
+.tbar{display:none;border-radius:8px;padding:11px 16px;margin-bottom:14px;text-align:center;font-size:14px;font-weight:600;}
+.tbar.on{display:block;}
+.tok{background:#ecfdf5;border:1.5px solid #10b981;color:#065f46;}
+.tfl{position:fixed;bottom:20px;right:20px;z-index:99999;padding:10px 18px;border-radius:9px;font-weight:700;font-size:13px;font-family:'Sarabun',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.14);animation:si .28s ease;}
+@keyframes si{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
+/* action panel */
+.ap{background:#fff;border-radius:14px;padding:20px;margin-top:12px;box-shadow:var(--shL);border:1px solid var(--border);}
+.ain{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:12px;background:#f8fafc;border-radius:8px;padding:11px;border:1px solid var(--border);align-items:start;}
+.ak{font-size:11px;color:var(--muted);display:block;margin-bottom:2px;}
+.av{font-size:13px;font-weight:600;}
+.abt{display:flex;gap:9px;flex-wrap:wrap;}
+.abt button{flex:1;min-width:100px;padding:9px;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;font-family:'Sarabun',sans-serif;transition:all .18s;}
+.abt button:hover{opacity:.85;}
+/* submit */
+.bsub{width:100%;padding:13px;background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:15px;font-weight:700;font-family:'Sarabun',sans-serif;box-shadow:0 4px 12px rgba(37,99,235,.28);transition:all .18s;}
+.bsub:hover{opacity:.92;transform:translateY(-1px);}
+/* modal */
+#movl{display:none;position:fixed;inset:0;background:rgba(15,23,42,.62);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:12px;}
+#movl.on{display:flex;}
+#mbox{background:#fff;border-radius:14px;width:100%;max-width:870px;max-height:94vh;overflow:auto;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.22);}
+#mhdr{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:10;}
+#mhdr span{font-weight:700;font-size:14px;color:#1d4ed8;}
+.logit{padding:9px 12px;border-bottom:1px solid var(--border);font-size:12.5px;}
+.logit:last-child{border-bottom:none;}
+/* Firebase setup modal */
+#fb-modal{display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(4px);z-index:99999;align-items:center;justify-content:center;padding:16px;}
+#fb-modal.on{display:flex;}
+#fb-mbox{background:#fff;border-radius:18px;width:100%;max-width:760px;max-height:92vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.3);}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:#f1f5f9;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+@media(max-width:768px){.scs{grid-template-columns:repeat(3,1fr)}.charts-grid,.charts-grid3{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}.g3,.g2{grid-template-columns:1fr}.abt{flex-direction:column}}
+
+/* ═══ PDF STYLES ═══ */
+.pf{font-family:'Sarabun',sans-serif;font-size:12px;color:#000;background:#fff;border:2px solid #333;}
+.ph{background:linear-gradient(to right,#1a3a8f,#2b5ce6);display:flex;align-items:stretch;}
+.ph-logo{background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 12px;min-width:68px;}
+.ph-aam{font-weight:900;font-size:17px;color:#1a3a8f;letter-spacing:1px;border:2px solid #1a3a8f;padding:2px 6px;border-radius:2px;}
+.ph-tri{width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:12px solid #1a3a8f;margin-top:3px;}
+.ph-t{flex:1;display:flex;align-items:center;justify-content:center;padding:10px;}
+.ph-t span{font-size:28px;font-weight:900;color:#fff;letter-spacing:2px;font-style:italic;text-shadow:1px 1px 3px rgba(0,0,0,.3);}
+.pr1{display:grid;grid-template-columns:3fr 2fr 2fr 1.5fr;border-bottom:1px solid #555;}
+.pr1c{padding:5px 9px;border-right:1px solid #555;}.pr1c:last-child{border-right:none;}
+.pul{font-size:11px;color:#222;text-decoration:underline;font-weight:600;}
+.pval{border-bottom:1px solid #000;min-height:17px;padding-bottom:2px;margin-top:2px;font-size:12.5px;font-weight:600;}
+.pr2{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #555;}
+.pr2c{padding:5px 9px;border-right:1px solid #555;}.pr2c:last-child{border-right:none;}
+.pslbl{font-weight:700;font-size:11.5px;text-decoration:underline;color:#000;margin-bottom:3px;}
+.pline{border-bottom:1px solid #666;min-height:17px;padding-bottom:2px;font-size:12px;}
+.pr3{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #555;}
+.pr3L{padding:5px 9px;border-right:1px solid #555;}.pr3R{padding:5px 9px;}
+.pcbg{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin-bottom:6px;}
+.pcbi{display:flex;align-items:center;gap:4px;font-size:11px;}
+.pcb{width:11px;height:11px;border:1px solid #333;display:inline-flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;background:#fff;}
+.pcb.ck{background:#1a3a8f;color:#fff;}
+.psevlbl{font-size:11px;font-weight:700;margin:4px 0 3px;}
+.psevi{display:flex;align-items:center;gap:5px;font-size:11px;margin-bottom:2px;}
+.pr4{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #555;}
+.pr4c{padding:6px 9px;border-right:1px solid #555;text-align:center;display:flex;flex-direction:column;align-items:center;min-height:200px;}
+.pr4c:last-child{border-right:none;}
+.pimlbl{font-size:38px;font-weight:900;color:#1a3a8f;font-style:italic;display:block;margin-bottom:5px;}
+.pimph{border:1px solid #bbb;width:100%;flex:1;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:13px;background:#f9f9f9;min-height:152px;}
+.pimact{max-width:100%;max-height:168px;object-fit:contain;display:block;}
+.pavr{display:flex;align-items:center;gap:7px;padding:5px 9px;border-bottom:1px solid #bbb;font-size:12px;}
+.pjpr{padding:4px 9px;border-bottom:1px solid #ccc;background:#f3e8ff;font-size:11px;}
+.pext{padding:4px 9px;border-bottom:1px solid #ccc;background:#fffde7;font-size:11px;}
+.plog{padding:4px 9px;border-bottom:1px solid #ccc;background:#fff3e0;font-size:10px;}
+.psgr{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid #555;}
+.psgc{padding:6px 9px;text-align:center;border-right:1px solid #555;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;}
+.psgc:last-child{border-right:none;}
+.psgtx{font-size:22px;font-style:italic;font-weight:700;color:#1a3a8f;letter-spacing:2px;display:block;margin-bottom:3px;font-family:'Sarabun',sans-serif;}
+.psgdt{font-size:10px;color:#555;margin-bottom:3px;}
+.psgln{border-top:1px solid #333;padding-top:3px;font-size:11px;font-weight:700;width:100%;text-align:center;}
+.pft{display:flex;justify-content:space-between;padding:3px 9px;background:#ebebeb;font-size:10px;color:#555;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div id="ti">
+    <div class="logo">AAM</div>
+    <div><div class="atitle">RSS : Risk Safety Suggestion</div><div class="asub">ระบบจัดการข้อเสนอแนะความปลอดภัย</div></div>
+    <div id="sw" onclick="document.getElementById('fb-modal').classList.add('on')">
+      <span class="dot"></span><span id="sl">กำลังเชื่อมต่อ...</span>
+      <span style="margin-left:4px;font-size:10px;opacity:.7">⚙️</span>
+    </div>
+    <div class="docn">FM-SF-001 Rev.04 · 12/02/2024</div>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div id="fbb" style="padding:7px 24px;">
+  <div style="max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span id="fbb-status-icon">🔥</span>
+    <span id="fbb-status-text" style="font-size:12px;font-weight:600;color:#92400e">ยังไม่ได้เชื่อมต่อ Firebase</span>
+    <button onclick="document.getElementById('fb-modal').classList.add('on')"
+      style="padding:4px 12px;background:#fff;border:1px solid #fed7aa;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Sarabun',sans-serif;color:#92400e;font-weight:600">
+      ⚙️ ตั้งค่า Firebase
+    </button>
+    <span style="margin-left:auto;font-size:11px;color:var(--muted)">ข้อมูล sync กับ Firebase Realtime Database ทุก 8 วินาที</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div id="tabbar">
+  <div id="tbi">
+    <button class="tb tb-db on" onclick="sw('db')">📊 Dashboard</button>
+    <button class="tb tb-em" onclick="sw('em')">👷 พนักงาน</button>
+    <button class="tb tb-jp" onclick="sw('jp')">🦺 จป.วิชาชีพ</button>
+    <button class="tb tb-kp" onclick="sw('kp')">🏛️ ประธาน คปอ.</button>
+    <button class="tb tb-sv" onclick="sw('sv')">👔 หัวหน้างาน</button>
+  </div>
+</div>
+
+<div id="main">
+
+<!-- ══ DASHBOARD ══ -->
+<div id="pn-db" class="pn on">
+  <!-- Stat cards -->
+  <div class="scs">
+    <div class="sc" onclick="sf('all')" id="sc-all"><div style="font-size:22px;margin-bottom:4px">📋</div><div class="sv" id="c-all" style="color:#1d4ed8">0</div><div class="sl">ทั้งหมด</div></div>
+    <div class="sc" onclick="sf('pending')" id="sc-pending"><div style="font-size:22px;margin-bottom:4px">⏳</div><div class="sv" id="c-pending" style="color:#d97706">0</div><div class="sl">รอ จป.ตรวจสอบ</div></div>
+    <div class="sc" onclick="sf('jp_ok')" id="sc-jp_ok"><div style="font-size:22px;margin-bottom:4px">🔍</div><div class="sv" id="c-jp_ok" style="color:#7c3aed">0</div><div class="sl">ผ่าน จป. รอ คปอ.</div></div>
+    <div class="sc" onclick="sf('approved')" id="sc-approved"><div style="font-size:22px;margin-bottom:4px">✅</div><div class="sv" id="c-approved" style="color:#059669">0</div><div class="sl">คปอ.อนุมัติแล้ว</div></div>
+    <div class="sc" onclick="sf('done')" id="sc-done"><div style="font-size:22px;margin-bottom:4px">🏆</div><div class="sv" id="c-done" style="color:#0891b2">0</div><div class="sl">ดำเนินการเสร็จ</div></div>
+  </div>
+
+  <!-- Charts row 1 -->
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">⚠️ ประเภทอันตราย (จำนวนเรื่อง)</div>
+      <canvas id="chart-danger" height="200"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">📍 จำนวนเรื่องแยกตามพื้นที่/แผนก</div>
+      <canvas id="chart-area" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Charts row 2 -->
+  <div class="charts-grid3">
+    <div class="chart-card">
+      <div class="chart-title">🎯 ระดับความรุนแรง</div>
+      <canvas id="chart-sev" height="180"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">📈 สถานะการดำเนินการ</div>
+      <canvas id="chart-status" height="180"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">✅ เปอร์เซ็นต์การแก้ไขเสร็จสิ้น</div>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:150px">
+        <canvas id="chart-done" width="150" height="150" style="max-width:150px"></canvas>
+        <div id="done-pct" style="font-size:28px;font-weight:900;color:#059669;margin-top:8px">0%</div>
+        <div style="font-size:11px;color:var(--muted)">ของ RSS ที่อนุมัติแล้ว</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter + Table -->
+  <div class="fbr">
+    <span style="color:var(--muted);font-size:12px;font-weight:600">กรอง:</span>
+    <button class="fb" id="fb-all" onclick="sf('all')">ทั้งหมด</button>
+    <button class="fb" id="fb-pending" onclick="sf('pending')">รอ จป.</button>
+    <button class="fb" id="fb-jp_ok" onclick="sf('jp_ok')">ผ่าน จป.</button>
+    <button class="fb" id="fb-approved" onclick="sf('approved')">อนุมัติแล้ว</button>
+    <button class="fb" id="fb-rejected" onclick="sf('rejected')">ไม่อนุมัติ</button>
+    <button class="fb" id="fb-in_progress" onclick="sf('in_progress')">กำลังดำเนินการ</button>
+    <button class="fb" id="fb-done" onclick="sf('done')">เสร็จสิ้น</button>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th style="color:#1d4ed8">รหัส</th><th style="color:#1d4ed8">ชื่อ</th><th style="color:#1d4ed8">แผนก</th>
+        <th style="color:#1d4ed8">พื้นที่</th><th style="color:#1d4ed8">วันที่</th><th style="color:#1d4ed8">ระดับ</th>
+        <th style="color:#1d4ed8">สถานะ</th>
+        <th style="color:#7c3aed">จป.</th><th style="color:#0891b2">คปอ.</th><th style="color:#ea580c">หัวหน้า</th>
+        <th>จัดการ</th>
+      </tr></thead>
+      <tbody id="db-tb"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ EMPLOYEE ══ -->
+<div id="pn-em" class="pn">
+  <div style="max-width:820px;margin:0 auto">
+    <div id="t-em" class="tbar tok">✅ ส่งแบบฟอร์ม RSS สำเร็จ! ขอบคุณสำหรับข้อเสนอแนะ</div>
+    <div class="card">
+      <div style="font-size:17px;font-weight:700;color:#059669;border-bottom:2px solid var(--border);padding-bottom:10px;margin-bottom:18px">📝 แบบฟอร์ม RSS : Risk Safety Suggestion</div>
+      <div class="g4">
+        <div><span class="lb">ชื่อ-นามสกุล *</span><input id="fn" type="text" placeholder="ชื่อ-นามสกุล"/></div>
+        <div><span class="lb">รหัสพนักงาน *</span><input id="fe" type="text" placeholder="รหัส"/></div>
+        <div>
+          <span class="lb">แผนก *</span>
+          <select id="fd" onchange="toggleOther('fd','fd-other')">
+            <option value="">-- เลือกแผนก --</option>
+            <option>QC</option><option>QE/NM</option><option>Fab B</option><option>Fab C</option>
+            <option>Assy</option><option>Calotte 1</option><option>Calotte 2</option>
+            <option>Calotte 3</option><option>Calotte 4</option><option>Mold</option>
+            <option>Single</option><option>NV</option><option>Sun visor</option>
+            <option>DS</option><option>Planning</option><option>MN</option>
+            <option>Facility</option><option>PE/RD</option><option>HR&amp;GA</option>
+            <option>Safety</option><option>PS</option><option>MK</option>
+            <option>จัดซื้อ</option><option>บัญชี/การเงิน</option><option>อื่นๆ</option>
+          </select>
+          <input id="fd-other" type="text" placeholder="ระบุแผนก..." style="display:none;margin-top:6px"/>
+        </div>
+        <div><span class="lb">วันที่</span><input id="fdt" type="date"/></div>
+      </div>
+      <div class="g2">
+        <div>
+          <span class="lb" style="color:#1d4ed8;font-weight:700;text-decoration:underline">1. ระบุงานที่ทำ และพื้นที่ปฏิบัติงาน *</span>
+          <select id="fs" onchange="toggleOther('fs','fs-other')">
+            <option value="">-- เลือกพื้นที่ --</option>
+            <option>MN</option><option>RD/PE</option><option>IT</option>
+            <option>Calotte 1</option><option>Calotte 2</option><option>Calotte 3</option><option>Calotte 4</option>
+            <option>NV</option><option>Single</option><option>Sun visor</option>
+            <option>Mold</option><option>QC</option><option>QE/NM</option>
+            <option>Fab B</option><option>Fab C</option><option>Assy</option>
+            <option>DS (Export)</option><option>DS (Domestic)</option>
+            <option>Indoor (โรงอาหาร,ห้องน้ำ)</option>
+            <option>Outdoor (รอบนอกโรงงาน,ป้อม รปภ., ลานจอดรถ)</option>
+            <option>Office</option><option>Office Room (ห้องประชุม)</option>
+            <option>อื่นๆ</option>
+          </select>
+          <input id="fs-other" type="text" placeholder="ระบุพื้นที่..." style="display:none;margin-top:6px"/>
+        </div>
+        <div><span class="lb" style="color:#1d4ed8;font-weight:700;text-decoration:underline">2. ระบุเครื่องจักร/อุปกรณ์ ที่ทำให้เกิดอันตราย</span><input id="fq" type="text" placeholder="ระบุเครื่องจักร..."/></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <span class="lb" style="color:#1d4ed8;font-weight:700;text-decoration:underline;margin-bottom:8px">3. ระบุอันตรายที่เกิด และอวัยวะที่จะได้รับอันตราย (stop 6 type)</span>
+        <div class="cg">
+          <label class="ci" onclick="tck(this,'d1')"><input type="checkbox" id="d1" value="อันตรายจากเครื่องจักร"><span>1. อันตรายจากเครื่องจักร</span></label>
+          <label class="ci" onclick="tck(this,'d4')"><input type="checkbox" id="d4" value="อันตรายจากการตกจากที่สูง"><span>4. อันตรายจากการตกจากที่สูง</span></label>
+          <label class="ci" onclick="tck(this,'d2')"><input type="checkbox" id="d2" value="อันตรายจากวัตถุหนักตกใส่"><span>2. อันตรายจากวัตถุหนักตกใส่</span></label>
+          <label class="ci" onclick="tck(this,'d5')"><input type="checkbox" id="d5" value="อันตรายจากกระแสไฟฟ้า"><span>5. อันตรายจากกระแสไฟฟ้า</span></label>
+          <label class="ci" onclick="tck(this,'d3')"><input type="checkbox" id="d3" value="อันตรายจากยานพาหนะ"><span>3. อันตรายจากยานพาหนะ</span></label>
+          <label class="ci" onclick="tck(this,'d6')"><input type="checkbox" id="d6" value="อื่นๆ (ไฟไหม้ ของมีคม วัตถุร้อน)"><span>6. อื่นๆ (ไฟไหม้ ของมีคม วัตถุร้อน)</span></label>
+        </div>
+        <div style="margin-top:10px">
+          <span class="lb" style="font-weight:700">การประเมินความรุนแรง</span>
+          <label class="ri" onclick="psv(this,'A')"><input type="radio" name="ev" value="A"><span class="rlv" style="color:#dc2626">ระดับ A :</span><span class="rds">ตาย พิการ หรือสูญเสียอวัยวะ</span></label>
+          <label class="ri" onclick="psv(this,'B')"><input type="radio" name="ev" value="B"><span class="rlv" style="color:#d97706">ระดับ B :</span><span class="rds">บาดเจ็บ หรือหยุดการผลิต</span></label>
+          <label class="ri" onclick="psv(this,'C')"><input type="radio" name="ev" value="C"><span class="rlv" style="color:#059669">ระดับ C :</span><span class="rds">บาดเจ็บเล็กน้อย (ไม่หยุดงาน) หรือไม่หยุดการผลิต</span></label>
+        </div>
+      </div>
+      <div style="margin-bottom:16px">
+        <span class="lb" style="color:#1d4ed8;font-weight:700;text-decoration:underline">4. ผู้ปฏิบัติงานทำการเสนอแนะ เพื่อปรับปรุง</span>
+        <textarea id="fg" rows="4" placeholder="ระบุข้อเสนอแนะ..."></textarea>
+      </div>
+      <div class="g2" style="margin-bottom:18px">
+        <div>
+          <span class="lb" style="font-weight:700;color:#1a3a8f">รูปภาพ ก่อน</span>
+          <div class="ib" onclick="document.getElementById('ib').click()">
+            <div id="ibp"><div style="font-size:28px">📷</div><div style="font-size:11px;color:var(--dim);margin-top:3px">คลิกเพื่ออัปโหลด</div></div>
+            <input id="ib" type="file" accept="image/*" style="display:none" onchange="lim('b',this)"/>
+          </div>
+        </div>
+        <div>
+          <span class="lb" style="font-weight:700;color:#7c3aed">รูปภาพ หลัง</span>
+          <div class="ib" onclick="document.getElementById('ia').click()">
+            <div id="iap"><div style="font-size:28px">📷</div><div style="font-size:11px;color:var(--dim);margin-top:3px">คลิกเพื่ออัปโหลด</div></div>
+            <input id="ia" type="file" accept="image/*" style="display:none" onchange="lim('a',this)"/>
+          </div>
+        </div>
+      </div>
+      <button class="bsub" onclick="sub()">📤 ส่งแบบฟอร์ม RSS</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ JP ══ -->
+<div id="pn-jp" class="pn">
+  <div class="rh" style="border-left:4px solid #7c3aed">
+    <h2 style="color:#7c3aed;font-size:16px;margin-bottom:3px">🦺 จป.วิชาชีพ — ตรวจสอบแบบฟอร์ม RSS</h2>
+    <p style="color:var(--muted);font-size:12px">ตรวจสอบความถูกต้องและครบถ้วน → ส่งให้ประธาน คปอ. พิจารณาอนุมัติ</p>
+  </div>
+  <div class="tw" style="margin-bottom:14px">
+    <table><thead><tr>
+      <th style="color:#7c3aed">รหัส</th><th style="color:#7c3aed">ชื่อ-นามสกุล</th>
+      <th style="color:#7c3aed">แผนก</th><th style="color:#7c3aed">วันที่</th>
+      <th style="color:#7c3aed">ระดับ</th><th style="color:#7c3aed">สถานะ</th><th style="color:#7c3aed">จัดการ</th>
+    </tr></thead><tbody id="jp-tb"></tbody></table>
+  </div>
+  <div id="jp-ap" class="ap" style="display:none">
+    <h3 id="jp-apt" style="color:#7c3aed;font-size:14px;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--border)"></h3>
+    <div class="ain" id="jp-ai"></div>
+    <div class="sbox" style="background:#f5f3ff;border-color:#c4b5fd">
+      <div style="font-weight:700;color:#7c3aed;font-size:13px;margin-bottom:10px">📋 บันทึกการตรวจสอบ (จป.วิชาชีพ)</div>
+      <span class="lb">ความคิดเห็น / ข้อสังเกต</span>
+      <textarea id="jp-cmt" rows="3" placeholder="ระบุความเห็น..." style="margin-bottom:12px;border-color:#c4b5fd"></textarea>
+      <div style="margin-bottom:12px">
+        <span class="lb" style="color:#7c3aed;font-weight:700">✍️ ลายเซ็น จป.วิชาชีพ (พิมพ์ชื่อ)</span>
+        <div class="sig-type-wrap" style="border-color:#c4b5fd">
+          <input class="sig-type-inp" id="jp-sig-txt" placeholder="พิมพ์ชื่อ-นามสกุล เพื่อลงนาม..." oninput="updSigPreview('jp')"/>
+          <div class="sig-preview" id="jp-sig-pre"></div>
+        </div>
+        <div style="font-size:10px;color:var(--dim)">ชื่อที่พิมพ์จะแสดงเป็นลายเซ็นใน PDF</div>
+      </div>
+      <div class="abt">
+        <button style="background:#7c3aed;color:#fff" onclick="jpDo('jp_ok')">✅ ผ่านการตรวจสอบ → ส่งประธาน คปอ.</button>
+        <button style="background:#dc2626;color:#fff" onclick="jpDo('jp_back')">↩️ ส่งกลับแก้ไข</button>
+        <button style="background:#e2e8f0;color:#475569" onclick="clap('jp-ap')">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ KPAO ══ -->
+<div id="pn-kp" class="pn">
+  <div class="rh" style="border-left:4px solid #0891b2">
+    <h2 style="color:#0891b2;font-size:16px;margin-bottom:3px">🏛️ ประธาน คปอ. — พิจารณาอนุมัติ RSS</h2>
+    <p style="color:var(--muted);font-size:12px">พิจารณา RSS ที่ผ่านการตรวจสอบจาก จป.วิชาชีพ และลงนามอนุมัติ/ไม่อนุมัติ</p>
+  </div>
+  <div class="tw" style="margin-bottom:14px">
+    <table><thead><tr>
+      <th style="color:#0891b2">รหัส</th><th style="color:#0891b2">ชื่อ-นามสกุล</th>
+      <th style="color:#0891b2">แผนก</th><th style="color:#0891b2">วันที่</th>
+      <th style="color:#0891b2">ระดับ</th><th style="color:#0891b2">ความเห็น จป.</th>
+      <th style="color:#0891b2">สถานะ</th><th style="color:#0891b2">จัดการ</th>
+    </tr></thead><tbody id="kp-tb"></tbody></table>
+  </div>
+  <div id="kp-ap" class="ap" style="display:none">
+    <h3 id="kp-apt" style="color:#0891b2;font-size:14px;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--border)"></h3>
+    <div class="ain" id="kp-ai"></div>
+    <div class="sbox" style="background:#ecfeff;border-color:#a5f3fc">
+      <div style="font-weight:700;color:#0891b2;font-size:13px;margin-bottom:10px">🏛️ การพิจารณาอนุมัติ (ประธาน คปอ.)</div>
+      <span class="lb">ประเภทการอนุมัติ</span>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:7px 12px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:8px;font-size:12.5px;font-weight:600">
+          <input type="radio" name="kpt" value="rss" style="accent-color:#059669"> อนุมัติ ให้เป็นหัวข้อ RSS และทำการปรับปรุง
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:7px 12px;background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;font-size:12.5px;font-weight:600">
+          <input type="radio" name="kpt" value="comment"> อนุมัติ ให้เป็นหัวข้อ Comment
+        </label>
+      </div>
+      <span class="lb">ความคิดเห็น / คำสั่ง</span>
+      <textarea id="kp-cmt" rows="3" placeholder="ระบุความเห็น..." style="margin-bottom:12px;border-color:#a5f3fc"></textarea>
+      <div style="margin-bottom:12px">
+        <span class="lb" style="color:#0891b2;font-weight:700">✍️ ลายเซ็น ประธาน คปอ. (พิมพ์ชื่อ)</span>
+        <div class="sig-type-wrap" style="border-color:#a5f3fc">
+          <input class="sig-type-inp" id="kp-sig-txt" placeholder="พิมพ์ชื่อ-นามสกุล เพื่อลงนาม..." oninput="updSigPreview('kp')"/>
+          <div class="sig-preview" id="kp-sig-pre"></div>
+        </div>
+        <div style="font-size:10px;color:var(--dim)">ชื่อที่พิมพ์จะแสดงเป็นลายเซ็นใน PDF</div>
+      </div>
+      <div class="abt">
+        <button style="background:#059669;color:#fff" onclick="kpDo('approved')">✅ อนุมัติ — ให้ดำเนินการแก้ไข</button>
+        <button style="background:#dc2626;color:#fff" onclick="kpDo('rejected')">❌ ไม่อนุมัติ เนื่องจาก...</button>
+        <button style="background:#e2e8f0;color:#475569" onclick="clap('kp-ap')">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUPERVISOR ══ -->
+<div id="pn-sv" class="pn">
+  <div class="rh" style="border-left:4px solid #ea580c">
+    <h2 style="color:#ea580c;font-size:16px;margin-bottom:3px">👔 หัวหน้างาน/เจ้าของพื้นที่ — ดำเนินการแก้ไข</h2>
+    <p style="color:var(--muted);font-size:12px">รับ RSS ที่อนุมัติแล้ว ดำเนินการแก้ไข อัปเดตผล และอัปโหลดรูปหลังแก้ไข</p>
+  </div>
+  <div class="tw" style="margin-bottom:14px">
+    <table><thead><tr>
+      <th style="color:#ea580c">รหัส</th><th style="color:#ea580c">ชื่อ-นามสกุล</th>
+      <th style="color:#ea580c">แผนก</th><th style="color:#ea580c">คำสั่ง คปอ.</th>
+      <th style="color:#ea580c">ระดับ</th><th style="color:#ea580c">กำหนดเสร็จ</th>
+      <th style="color:#ea580c">สถานะ</th><th style="color:#ea580c">จัดการ</th>
+    </tr></thead><tbody id="sv-tb"></tbody></table>
+  </div>
+  <div id="sv-ap" class="ap" style="display:none">
+    <h3 id="sv-apt" style="color:#ea580c;font-size:14px;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--border)"></h3>
+    <div class="ain" id="sv-ai"></div>
+    <div id="sv-kpi" style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:9px;padding:12px;margin-bottom:12px;font-size:13px"></div>
+    <div class="sbox" style="background:#fff7ed;border-color:#fed7aa">
+      <div style="font-weight:700;color:#9a3412;font-size:13px;margin-bottom:12px">✏️ อัปเดตการดำเนินการแก้ไข</div>
+      <div class="g3">
+        <div><span class="lb">ผู้รับผิดชอบ</span><input id="sv-as" type="text" placeholder="ชื่อผู้รับผิดชอบ"/></div>
+        <div><span class="lb">กำหนดแล้วเสร็จ</span><input id="sv-dl" type="date"/></div>
+        <div><span class="lb">วันที่เสร็จจริง</span><input id="sv-dn" type="date"/></div>
+      </div>
+      <div style="margin-bottom:10px"><span class="lb">วิธีการแก้ไข / มาตรการที่ดำเนินการ</span><textarea id="sv-dt" rows="3" placeholder="อธิบายสิ่งที่แก้ไข..."></textarea></div>
+      <div class="g2" style="margin-bottom:10px">
+        <div>
+          <span class="lb" style="color:#ea580c;font-weight:700">อัปโหลดรูปภาพ "หลังแก้ไข"</span>
+          <div id="sv-after-preview" style="display:none;margin-bottom:8px;border-radius:8px;overflow:hidden"></div>
+          <div class="ib" style="min-height:110px" onclick="document.getElementById('sv-if').click()">
+            <div id="sv-ip"><div style="font-size:24px">📷</div><div style="font-size:11px;color:var(--dim);margin-top:2px">อัปโหลดรูปหลังแก้ไขใหม่</div></div>
+            <input id="sv-if" type="file" accept="image/*" style="display:none" onchange="svli(this)"/>
+          </div>
+        </div>
+        <div><span class="lb">หมายเหตุ / บันทึกเพิ่มเติม</span><textarea id="sv-nt" rows="4" placeholder="หมายเหตุ..."></textarea></div>
+      </div>
+      <div class="abt">
+        <button style="background:#ea580c;color:#fff" onclick="svSv('in_progress')">💾 บันทึก — อยู่ระหว่างดำเนินการ</button>
+        <button style="background:#059669;color:#fff" onclick="svSv('done')">🏆 ดำเนินการเสร็จสิ้นแล้ว</button>
+        <button style="background:#e2e8f0;color:#475569" onclick="clap('sv-ap')">ยกเลิก</button>
+      </div>
+      <div id="sv-log" style="display:none;margin-top:14px">
+        <div style="font-size:12px;font-weight:700;color:#9a3412;margin-bottom:6px">📋 ประวัติการดำเนินการ</div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:7px;overflow:hidden" id="sv-logit"></div>
+      </div>
+    </div>
+    <button onclick="clap('sv-ap')" style="margin-top:8px;padding:7px 16px;background:#f1f5f9;color:#64748b;border:1px solid var(--bd);border-radius:7px;cursor:pointer;font-family:'Sarabun',sans-serif;font-size:12px">✕ ปิด</button>
+  </div>
+</div>
+</div><!-- /main -->
+
+<!-- MODAL VIEW/PDF -->
+<div id="movl">
+  <div id="mbox">
+    <div id="mhdr">
+      <span id="mt">📄 รายละเอียด RSS</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn b-green" onclick="doPrint()">🖨️ พิมพ์ / บันทึก PDF</button>
+        <button class="btn b-gray" onclick="clM()">✕ ปิด</button>
+      </div>
+    </div>
+    <div id="mb" style="padding:12px"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FIREBASE SETUP MODAL — คำแนะนำละเอียด
+══════════════════════════════════════════════ -->
+<div id="fb-modal">
+  <div id="fb-mbox">
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#f97316,#ea580c);padding:20px 24px;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:20px;font-weight:900;color:#fff">🔥 ตั้งค่า Firebase Realtime Database</div>
+        <div style="font-size:12px;color:#fed7aa;margin-top:3px">เก็บข้อมูลบน Cloud — ทุกเครื่องเห็นพร้อมกัน รูปภาพไม่หาย</div>
+      </div>
+      <button onclick="document.getElementById('fb-modal').classList.remove('on')"
+        style="background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px;font-family:'Sarabun',sans-serif">✕ ปิด</button>
+    </div>
+
+    <div style="padding:24px">
+
+      <!-- ── ขั้นตอน ── -->
+      <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:18px;margin-bottom:20px">
+        <div style="font-weight:700;font-size:15px;color:#9a3412;margin-bottom:14px">📋 ขั้นตอนตั้งค่า Firebase (ทำครั้งเดียว ~10 นาที)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+          <!-- Step 1-4 -->
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="background:#fff;border-radius:8px;padding:12px;border-left:4px solid #f97316">
+              <div style="font-weight:700;color:#ea580c;margin-bottom:4px">ขั้นที่ 1 — สร้างโปรเจกต์</div>
+              <div style="font-size:12px;line-height:1.8;color:#555">
+                1. ไปที่ <a href="https://console.firebase.google.com" target="_blank" style="color:#1d4ed8;font-weight:600">console.firebase.google.com</a><br>
+                2. กด <strong>"Add project"</strong><br>
+                3. ตั้งชื่อ เช่น <code style="background:#f1f5f9;padding:1px 5px;border-radius:3px">RSS-AAM</code><br>
+                4. ปิด Google Analytics → กด <strong>"Create project"</strong>
+              </div>
+            </div>
+            <div style="background:#fff;border-radius:8px;padding:12px;border-left:4px solid #f97316">
+              <div style="font-weight:700;color:#ea580c;margin-bottom:4px">ขั้นที่ 2 — เปิด Realtime Database</div>
+              <div style="font-size:12px;line-height:1.8;color:#555">
+                1. เมนูซ้าย → <strong>"Build"</strong> → <strong>"Realtime Database"</strong><br>
+                2. กด <strong>"Create Database"</strong><br>
+                3. เลือก Region: <strong>asia-southeast1 (Singapore)</strong><br>
+                4. เลือก <strong>"Start in test mode"</strong> → กด Enable
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3-4 -->
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="background:#fff;border-radius:8px;padding:12px;border-left:4px solid #10b981">
+              <div style="font-weight:700;color:#059669;margin-bottom:4px">ขั้นที่ 3 — คัดลอก Database URL</div>
+              <div style="font-size:12px;line-height:1.8;color:#555">
+                หลัง Enable จะเห็น URL รูปแบบ:<br>
+                <code style="background:#f1f5f9;padding:3px 6px;border-radius:3px;font-size:11px;display:block;margin:5px 0;word-break:break-all">https://rss-aam-default-rtdb.asia-southeast1.firebasedatabase.app</code>
+                กด <strong>Copy URL</strong> นี้ไว้
+              </div>
+            </div>
+            <div style="background:#fff;border-radius:8px;padding:12px;border-left:4px solid #10b981">
+              <div style="font-weight:700;color:#059669;margin-bottom:4px">ขั้นที่ 4 — แชร์ให้ทีม</div>
+              <div style="font-size:12px;line-height:1.8;color:#555">
+                1. วาง URL ในช่องด้านล่าง → กด เชื่อมต่อ<br>
+                2. อัปโหลดไฟล์ HTML ขึ้น <strong>Google Drive</strong><br>
+                3. ส่ง link ให้ทุกคน → ใส่ Firebase URL เดียวกัน<br>
+                4. ข้อมูล <strong>sync ทุก 8 วินาที</strong> ✅
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security note -->
+        <div style="background:#fef2f2;border-radius:8px;padding:10px 14px;margin-top:12px;font-size:12px;color:#991b1b;border-left:3px solid #dc2626">
+          <strong>⚠️ หมายเหตุ Test Mode:</strong> Database จะ public 30 วัน ถ้าต้องการป้องกันให้ไปที่ Rules แล้วเปลี่ยนวันหมดอายุ หรือใส่ rule ตรวจสอบ authentication ครับ
+        </div>
+      </div>
+
+      <!-- ── URL Input ── -->
+      <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:18px;margin-bottom:16px">
+        <div style="font-weight:700;font-size:14px;color:#14532d;margin-bottom:12px">🔗 ใส่ Firebase URL ของคุณ</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input id="fb-url-inp" type="text"
+            placeholder="https://YOUR-PROJECT-default-rtdb.asia-southeast1.firebasedatabase.app"
+            style="flex:1;min-width:250px;padding:10px 14px;border:1.5px solid #86efac;border-radius:8px;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;background:#fff"/>
+          <button onclick="setFB()"
+            style="padding:10px 20px;background:#059669;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:14px;font-family:'Sarabun',sans-serif;white-space:nowrap;box-shadow:0 2px 8px rgba(5,150,105,.3)">
+            🔥 เชื่อมต่อ Firebase
+          </button>
+        </div>
+        <div id="fb-test-result" style="margin-top:8px;font-size:12px"></div>
+      </div>
+
+      <!-- ── Current status ── -->
+      <div id="fb-cur-status" style="background:#f8fafc;border-radius:10px;padding:14px;border:1px solid var(--border)">
+        <div style="font-weight:700;color:var(--muted);margin-bottom:6px">สถานะปัจจุบัน</div>
+        <div id="fb-cur-url" style="font-size:12px;color:var(--muted)">ยังไม่ได้เชื่อมต่อ — ใช้ localStorage (เครื่องเดียว)</div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="disconnectFB()"
+            style="padding:5px 14px;background:#fef2f2;color:#dc2626;border:1px solid #fca5a5;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Sarabun',sans-serif">
+            🔌 ยกเลิกการเชื่อมต่อ (ใช้ Local)
+          </button>
+          <button onclick="document.getElementById('fb-modal').classList.remove('on')"
+            style="padding:5px 14px;background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Sarabun',sans-serif">
+            ✕ ปิดหน้าต่างนี้
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════════════════
+const SK = 'rss-v8';
+const IMG_KEY = 'rss-img-v8';
+const DOPT = ['อันตรายจากเครื่องจักร','อันตรายจากวัตถุหนักตกใส่','อันตรายจากยานพาหนะ',
+              'อันตรายจากการตกจากที่สูง','อันตรายจากกระแสไฟฟ้า','อื่นๆ (ไฟไหม้ ของมีคม วัตถุร้อน)'];
+const SCFG = {
+  pending:     {l:'รอ จป.ตรวจสอบ',        bg:'#fef9c3',c:'#92400e'},
+  jp_ok:       {l:'ผ่าน จป. — รอ คปอ.',  bg:'#ede9fe',c:'#5b21b6'},
+  jp_back:     {l:'ส่งกลับแก้ไข',          bg:'#fee2e2',c:'#991b1b'},
+  approved:    {l:'คปอ.อนุมัติ',            bg:'#dcfce7',c:'#14532d'},
+  rejected:    {l:'ไม่อนุมัติ',             bg:'#fee2e2',c:'#991b1b'},
+  in_progress: {l:'กำลังดำเนินการ',        bg:'#e0f2fe',c:'#075985'},
+  done:        {l:'ดำเนินการเสร็จสิ้น ✓',  bg:'#d1fae5',c:'#064e3b'},
+};
+
+// ════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════
+let recs=[], flt='all';
+let selJP=null, selKP=null, selSV=null, midId=null;
+let imgB=null, imgA=null, svImg=null;
+let fbUrl = localStorage.getItem('rss-fb-url')||'';
+let isSaving=false;
+let charts={};
+
+// ════════════════════════════════════════════════
+//  IMAGE STORE — localStorage แยก (ป้องกัน Firebase limit)
+// ════════════════════════════════════════════════
+function saveImgs(id,fields){
+  try{
+    const s=JSON.parse(localStorage.getItem(IMG_KEY)||'{}');
+    if(!s[id])s[id]={};
+    Object.entries(fields).forEach(([k,v])=>{if(v)s[id][k]=v;});
+    localStorage.setItem(IMG_KEY,JSON.stringify(s));
+  }catch(e){}
+}
+function loadImgs(id){
+  try{return JSON.parse(localStorage.getItem(IMG_KEY)||'{}')[id]||{};}catch(e){return{};}
+}
+function mergeImgs(arr){
+  return arr.map(r=>{
+    const m=loadImgs(r.id);
+    return{...r,
+      beforeImg:  r.beforeImg  ||m.beforeImg  ||null,
+      afterImg:   r.afterImg   ||m.afterImg   ||null,
+      afterFixImg:r.afterFixImg||m.afterFixImg||null,
+      jpSig:      r.jpSig      ||m.jpSig      ||null,
+      kpSig:      r.kpSig      ||m.kpSig      ||null,
+    };
+  });
+}
+function stripImgs(arr){
+  return arr.map(({beforeImg,afterImg,afterFixImg,jpSig,kpSig,...r})=>r);
+}
+
+// ════════════════════════════════════════════════
+//  FIREBASE STORAGE
+// ════════════════════════════════════════════════
+function fbPath(){ return fbUrl ? fbUrl.replace(/\/$/,'')+'/'+SK+'.json' : null; }
+
+async function save(){
+  if(isSaving)return; isSaving=true;
+  // save images to localStorage
+  recs.forEach(r=>saveImgs(r.id,{beforeImg:r.beforeImg,afterImg:r.afterImg,afterFixImg:r.afterFixImg,jpSig:r.jpSig,kpSig:r.kpSig}));
+  // save full to localStorage backup
+  try{localStorage.setItem(SK,JSON.stringify(recs));}catch(e){}
+  // save slim to Firebase (no images to avoid 10MB limit per node)
+  const p=fbPath();
+  if(p){
+    try{
+      await fetch(p,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(stripImgs(recs))});
+    }catch(e){console.warn('FB save',e);}
+  }
+  isSaving=false;
+}
+
+async function load(){
+  let ok=false;
+  const p=fbPath();
+  if(p){
+    try{
+      const r=await fetch(p+'?t='+Date.now());
+      if(r.ok){const d=await r.json();if(Array.isArray(d)){recs=mergeImgs(d);ok=true;}}
+    }catch(e){console.warn('FB load',e);}
+  }
+  if(!ok){
+    try{const lo=localStorage.getItem(SK);if(lo)recs=mergeImgs(JSON.parse(lo));}catch(e){}
+  }
+  renderAll();
+  const t=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('sl').textContent=(fbUrl?'🔥 Firebase':'💾 Local')+' · '+t;
+}
+
+function setFB(){
+  const v=document.getElementById('fb-url-inp').value.trim();
+  if(!v){document.getElementById('fb-test-result').innerHTML='<span style="color:#dc2626">⚠️ กรุณาใส่ URL</span>';return;}
+  fbUrl=v; localStorage.setItem('rss-fb-url',v);
+  updFBStatus();
+  load();
+  document.getElementById('fb-test-result').innerHTML='<span style="color:#059669">✅ เชื่อมต่อ Firebase แล้ว! กำลังโหลดข้อมูล...</span>';
+  toast('🔥 เชื่อมต่อ Firebase สำเร็จ!','#ecfdf5','#059669');
+  setTimeout(()=>document.getElementById('fb-modal').classList.remove('on'),1500);
+}
+
+function disconnectFB(){
+  fbUrl=''; localStorage.removeItem('rss-fb-url');
+  updFBStatus(); load();
+  toast('💾 ใช้ Local Storage แล้ว','#fef9c3','#92400e');
+}
+
+function updFBStatus(){
+  const el=document.getElementById('fb-cur-url');
+  const si=document.getElementById('fbb-status-icon');
+  const st=document.getElementById('fbb-status-text');
+  const fbb=document.getElementById('fbb');
+  if(fbUrl){
+    el.innerHTML=`<span style="color:#059669;font-weight:700">✅ เชื่อมต่อ Firebase แล้ว</span><br><span style="color:#64748b;font-size:11px">${fbUrl}</span>`;
+    si.textContent='🔥'; st.textContent='Firebase เชื่อมต่อแล้ว — ข้อมูล sync ทุกเครื่อง';
+    st.style.color='#059669'; fbb.style.background='#f0fdf4'; fbb.style.borderColor='#86efac';
+    if(document.getElementById('fb-url-inp'))document.getElementById('fb-url-inp').value=fbUrl;
+  } else {
+    el.textContent='ยังไม่ได้เชื่อมต่อ — ใช้ localStorage (เครื่องเดียว)';
+    si.textContent='⚠️'; st.textContent='ยังไม่ได้ตั้งค่า Firebase — ข้อมูลอยู่แค่เครื่องนี้';
+    st.style.color='#92400e'; fbb.style.background='#fff7ed'; fbb.style.borderColor='#fed7aa';
+  }
+}
+
+// ════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════
+const gid=()=>'RSS-'+Date.now()+'-'+~~(Math.random()*9999);
+const td=()=>new Date().toISOString().split('T')[0];
+const now=()=>new Date().toLocaleString('th-TH');
+const fd=d=>{if(!d)return'-';try{return new Date(d).toLocaleDateString('th-TH');}catch{return d;}};
+const sc=s=>s==='A'?'#dc2626':s==='B'?'#d97706':s==='C'?'#059669':'#64748b';
+const sbg=s=>s==='A'?'#fee2e2':s==='B'?'#fef9c3':s==='C'?'#dcfce7':'#f1f5f9';
+const badge=st=>{const c=SCFG[st]||{l:st,bg:'#f1f5f9',c:'#555'};return`<span class="badge" style="background:${c.bg};color:${c.c}">${c.l}</span>`;};
+const sevb=s=>s?`<span class="badge" style="background:${sbg(s)};color:${sc(s)}">ระดับ ${s}</span>`:'<span style="color:var(--dim)">-</span>';
+const sid=id=>(id||'').split('-')[1]?.slice(-6)||(id||'').slice(-6);
+
+// ════════════════════════════════════════════════
+//  TYPED SIGNATURE
+// ════════════════════════════════════════════════
+function updSigPreview(role){
+  const inp=document.getElementById(role+'-sig-txt');
+  const pre=document.getElementById(role+'-sig-pre');
+  if(inp&&pre) pre.textContent=inp.value;
+}
+function getSigText(role){
+  const inp=document.getElementById(role+'-sig-txt');
+  return inp?.value.trim()||null;
+}
+
+// ════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════
+function sw(t){
+  document.querySelectorAll('.pn').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pn-'+t).classList.add('on');
+  document.querySelectorAll('.tb').forEach(b=>{
+    b.classList.remove('on');
+    if(b.getAttribute('onclick')==="sw('"+t+"')") b.classList.add('on');
+  });
+  renderAll();
+}
+
+// ════════════════════════════════════════════════
+//  FILTER
+// ════════════════════════════════════════════════
+function sf(f){
+  flt=f;
+  document.querySelectorAll('.fb').forEach(b=>b.style.cssText='');
+  document.querySelectorAll('.sc').forEach(c=>c.classList.remove('active'));
+  const FC={all:'#1d4ed8',pending:'#92400e',jp_ok:'#5b21b6',approved:'#14532d',rejected:'#991b1b',in_progress:'#075985',done:'#064e3b'};
+  const FB={all:'#eff6ff',pending:'#fef9c3',jp_ok:'#ede9fe',approved:'#dcfce7',rejected:'#fee2e2',in_progress:'#e0f2fe',done:'#d1fae5'};
+  const btn=document.getElementById('fb-'+f);
+  if(btn){btn.style.background=FB[f]||'#f1f5f9';btn.style.color=FC[f]||'#333';btn.style.borderColor=FC[f]||'#999';}
+  renderDB();
+}
+
+// ════════════════════════════════════════════════
+//  FORM HELPERS
+// ════════════════════════════════════════════════
+function toggleOther(selId,inpId){
+  const sel=document.getElementById(selId);
+  const inp=document.getElementById(inpId);
+  if(sel.value==='อื่นๆ'){inp.style.display='block';inp.focus();}
+  else{inp.style.display='none';inp.value='';}
+}
+function getSelectVal(selId,inpId){
+  const sel=document.getElementById(selId);
+  if(sel.value==='อื่นๆ'){
+    const txt=document.getElementById(inpId).value.trim();
+    return txt?'อื่นๆ: '+txt:'อื่นๆ';
+  }
+  return sel.value;
+}
+function tck(lbl,id){setTimeout(()=>{const cb=document.getElementById(id);lbl.classList.toggle('on',cb.checked);},0);}
+function psv(lbl,v){document.querySelectorAll('.ri').forEach(r=>{r.style.background='#f8fafc';r.style.borderColor='var(--bd)';});lbl.style.background=sbg(v);lbl.style.borderColor=sc(v);}
+function lim(s,inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();r.onload=ev=>{
+    if(s==='b'){imgB=ev.target.result;document.getElementById('ibp').innerHTML=`<img src="${imgB}" style="max-width:100%;max-height:120px;border-radius:6px;object-fit:cover"><br><button class="btn b-red" style="margin-top:5px;font-size:10px" onclick="clim('b');event.stopPropagation()">ลบ</button>`;}
+    else{imgA=ev.target.result;document.getElementById('iap').innerHTML=`<img src="${imgA}" style="max-width:100%;max-height:120px;border-radius:6px;object-fit:cover"><br><button class="btn b-red" style="margin-top:5px;font-size:10px" onclick="clim('a');event.stopPropagation()">ลบ</button>`;}
+  };r.readAsDataURL(f);
+}
+function clim(s){
+  if(s==='b'){imgB=null;document.getElementById('ibp').innerHTML='<div style="font-size:28px">📷</div><div style="font-size:11px;color:var(--dim);margin-top:3px">คลิกเพื่ออัปโหลด</div>';}
+  else{imgA=null;document.getElementById('iap').innerHTML='<div style="font-size:28px">📷</div><div style="font-size:11px;color:var(--dim);margin-top:3px">คลิกเพื่ออัปโหลด</div>';}
+}
+function svli(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();r.onload=ev=>{
+    svImg=ev.target.result;
+    document.getElementById('sv-ip').innerHTML=`<img src="${svImg}" style="max-width:100%;max-height:100px;border-radius:6px;object-fit:cover"><br><button class="btn b-red" style="margin-top:4px;font-size:10px" onclick="svImg=null;document.getElementById('sv-ip').innerHTML='<div style=\\'font-size:24px\\'>📷</div>';event.stopPropagation()">ลบ</button>`;
+  };r.readAsDataURL(f);
+}
+
+// ════════════════════════════════════════════════
+//  SUBMIT
+// ════════════════════════════════════════════════
+async function sub(){
+  const name=document.getElementById('fn').value.trim();
+  const eid=document.getElementById('fe').value.trim();
+  const dept=getSelectVal('fd','fd-other');
+  const area=getSelectVal('fs','fs-other');
+  if(!name||!eid||!dept){alert('กรุณากรอกชื่อ รหัสพนักงาน และเลือกแผนก');return;}
+  const dts=[];['d1','d2','d3','d4','d5','d6'].forEach(id=>{const cb=document.getElementById(id);if(cb?.checked)dts.push(cb.value);});
+  const sevEl=document.querySelector('input[name="ev"]:checked');
+  recs.unshift({
+    id:gid(),name,empId:eid,department:dept,
+    date:document.getElementById('fdt').value||td(),
+    system:area, equipment:document.getElementById('fq').value.trim(),
+    dangerTypes:dts,severity:sevEl?sevEl.value:'',
+    suggestion:document.getElementById('fg').value.trim(),
+    beforeImg:imgB,afterImg:imgA,
+    status:'pending',createdAt:td(),
+    jpComment:'',jpAt:'',jpSig:null,
+    kpComment:'',kpAt:'',kpType:'',kpSig:null,
+    assignee:'',deadline:'',doneDate:'',actionDetail:'',svNote:'',
+    afterFixImg:null,editLog:[]
+  });
+  await save();
+  ['fn','fe','fq','fg'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fd').value=''; document.getElementById('fs').value='';
+  document.getElementById('fd-other').style.display='none'; document.getElementById('fd-other').value='';
+  document.getElementById('fs-other').style.display='none'; document.getElementById('fs-other').value='';
+  document.getElementById('fdt').value=td();
+  ['d1','d2','d3','d4','d5','d6'].forEach(id=>{const cb=document.getElementById(id);if(cb)cb.checked=false;cb?.closest('label')?.classList.remove('on');});
+  document.querySelectorAll('input[name="ev"]').forEach(r=>r.checked=false);
+  document.querySelectorAll('.ri').forEach(r=>{r.style.background='';r.style.borderColor='';});
+  clim('b');clim('a');
+  const t=document.getElementById('t-em');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),4000);
+  renderAll();
+}
+
+// ════════════════════════════════════════════════
+//  RENDER DASHBOARD + CHARTS
+// ════════════════════════════════════════════════
+function renderDB(){
+  const cnt={all:recs.length};
+  Object.keys(SCFG).forEach(k=>cnt[k]=recs.filter(r=>r.status===k).length);
+  ['all','pending','jp_ok','approved','done'].forEach(k=>{const el=document.getElementById('c-'+k);if(el)el.textContent=cnt[k]||0;});
+
+  // Charts
+  buildCharts();
+
+  const list=flt==='all'?recs:recs.filter(r=>r.status===flt);
+  const tb=document.getElementById('db-tb');if(!tb)return;
+  if(!list.length){tb.innerHTML=`<tr><td colspan="11"><div style="text-align:center;padding:42px;color:var(--dim)"><div style="font-size:38px;margin-bottom:8px">📭</div>ยังไม่มีข้อมูล</div></td></tr>`;return;}
+  tb.innerHTML=list.map(s=>`<tr>
+    <td style="color:#1d4ed8;font-weight:700;font-size:11px">${sid(s.id)}</td>
+    <td style="font-weight:500">${s.name}</td>
+    <td style="color:var(--muted)">${s.department}</td>
+    <td style="color:var(--muted);font-size:11px">${s.system||'-'}</td>
+    <td style="color:var(--muted);white-space:nowrap">${fd(s.date)}</td>
+    <td>${sevb(s.severity)}</td>
+    <td>${badge(s.status)}</td>
+    <td style="font-size:11px;color:#7c3aed">${s.jpAt?'✓ '+fd(s.jpAt):'<span style="color:var(--dim)">-</span>'}</td>
+    <td style="font-size:11px;color:#0891b2">${s.kpAt?'✓ '+fd(s.kpAt):'<span style="color:var(--dim)">-</span>'}</td>
+    <td style="font-size:11px;color:#ea580c">${s.doneDate?'✓ '+fd(s.doneDate):s.assignee||'<span style="color:var(--dim)">-</span>'}</td>
+    <td><button class="btn b-blue" onclick="opM('${s.id}')">ดู/PDF</button></td>
+  </tr>`).join('');
+}
+
+function buildCharts(){
+  if(!recs.length){
+    ['chart-danger','chart-area','chart-sev','chart-status','chart-done'].forEach(id=>{
+      const c=document.getElementById(id);if(c&&charts[id]){charts[id].destroy();delete charts[id];}
+    });
+    document.getElementById('done-pct').textContent='0%';
+    return;
+  }
+
+  // 1) Danger types bar chart
+  const dCnt={};
+  DOPT.forEach(o=>dCnt[o]=0);
+  recs.forEach(r=>(r.dangerTypes||[]).forEach(d=>{if(dCnt[d]!==undefined)dCnt[d]++;else dCnt[d]=1;}));
+  const dLabels=Object.keys(dCnt).filter(k=>dCnt[k]>0);
+  const dShort=dLabels.map(l=>l.replace('อันตรายจาก','').replace(' (ไฟไหม้ ของมีคม วัตถุร้อน)',''));
+  buildChart('chart-danger','bar',dShort,Object.values(dCnt).filter((_,i)=>dCnt[Object.keys(dCnt)[i]]>0),
+    ['#3b82f6','#f97316','#8b5cf6','#10b981','#f59e0b','#ec4899'],{indexAxis:'y'});
+
+  // 2) Area/dept horizontal bar
+  const aCnt={};
+  recs.forEach(r=>{const a=r.system||r.department||'ไม่ระบุ';aCnt[a]=(aCnt[a]||0)+1;});
+  const aSort=Object.entries(aCnt).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  buildChart('chart-area','bar',aSort.map(x=>x[0]),aSort.map(x=>x[1]),
+    ['#1d4ed8','#7c3aed','#059669','#d97706','#0891b2','#ea580c','#dc2626','#64748b'],{indexAxis:'y'});
+
+  // 3) Severity doughnut
+  const sevCnt={A:0,B:0,C:0};
+  recs.forEach(r=>{if(sevCnt[r.severity]!==undefined)sevCnt[r.severity]++;});
+  buildChart('chart-sev','doughnut',['ระดับ A (รุนแรง)','ระดับ B (ปานกลาง)','ระดับ C (เล็กน้อย)'],
+    [sevCnt.A,sevCnt.B,sevCnt.C],['#dc2626','#d97706','#059669']);
+
+  // 4) Status bar
+  const stCnt={};
+  Object.keys(SCFG).forEach(k=>stCnt[k]=recs.filter(r=>r.status===k).length);
+  const stKeys=Object.keys(stCnt).filter(k=>stCnt[k]>0);
+  buildChart('chart-status','bar',stKeys.map(k=>SCFG[k].l),stKeys.map(k=>stCnt[k]),
+    stKeys.map(k=>SCFG[k].c));
+
+  // 5) Done percentage doughnut
+  const approved=recs.filter(r=>['approved','in_progress','done'].includes(r.status)).length;
+  const done=recs.filter(r=>r.status==='done').length;
+  const pct=approved?Math.round(done/approved*100):0;
+  document.getElementById('done-pct').textContent=pct+'%';
+  buildChart('chart-done','doughnut',['เสร็จสิ้น','อยู่ระหว่างดำเนินการ'],[done,Math.max(0,approved-done)],['#059669','#e2e8f0']);
+}
+
+function buildChart(id,type,labels,data,colors,extraOpts={}){
+  const el=document.getElementById(id);if(!el)return;
+  if(charts[id]){charts[id].destroy();}
+  charts[id]=new Chart(el,{
+    type,
+    data:{
+      labels,
+      datasets:[{
+        data,
+        backgroundColor:type==='bar'?colors.map(c=>c+'cc'):colors,
+        borderColor:type==='bar'?colors:'transparent',
+        borderWidth:type==='bar'?1.5:0,
+        borderRadius:type==='bar'?5:0,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{display:type!=='bar',position:'bottom',labels:{font:{size:11,family:'Sarabun'},boxWidth:12,padding:10}},tooltip:{callbacks:{label:ctx=>' '+ctx.parsed+(type==='doughnut'?'':' เรื่อง')}}},
+      scales:type==='bar'?{x:{grid:{display:false},ticks:{font:{size:11,family:'Sarabun'}}},y:{ticks:{font:{size:11,family:'Sarabun'}},...(extraOpts.indexAxis==='y'?{grid:{display:false}}:{})}}:{},
+      ...extraOpts
+    }
+  });
+}
+
+// ════════════════════════════════════════════════
+//  RENDER JP / KP / SV
+// ════════════════════════════════════════════════
+function renderJP(){
+  const tb=document.getElementById('jp-tb');if(!tb)return;
+  if(!recs.length){tb.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--dim)">ยังไม่มีข้อมูล</td></tr>`;return;}
+  tb.innerHTML=recs.map(s=>`<tr>
+    <td style="color:#7c3aed;font-weight:700;font-size:11px">${sid(s.id)}</td>
+    <td>${s.name}</td><td style="color:var(--muted)">${s.department}</td>
+    <td style="color:var(--muted);white-space:nowrap">${fd(s.date)}</td>
+    <td>${sevb(s.severity)}</td><td>${badge(s.status)}</td>
+    <td style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn b-purple" onclick="opJP('${s.id}')">ตรวจสอบ</button>
+      <button class="btn b-out" onclick="opM('${s.id}')">ดู/PDF</button>
+    </td>
+  </tr>`).join('');
+}
+function renderKP(){
+  const tb=document.getElementById('kp-tb');if(!tb)return;
+  const list=recs.filter(r=>['jp_ok','approved','rejected'].includes(r.status)||r.kpAt);
+  if(!list.length){tb.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:36px;color:var(--dim)">รอ จป.วิชาชีพส่งมาพิจารณา</td></tr>`;return;}
+  tb.innerHTML=list.map(s=>`<tr>
+    <td style="color:#0891b2;font-weight:700;font-size:11px">${sid(s.id)}</td>
+    <td>${s.name}</td><td style="color:var(--muted)">${s.department}</td>
+    <td style="color:var(--muted);white-space:nowrap">${fd(s.date)}</td>
+    <td>${sevb(s.severity)}</td>
+    <td style="font-size:11px;color:#7c3aed;max-width:120px"><span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.jpComment||'-'}</span></td>
+    <td>${badge(s.status)}</td>
+    <td style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn b-teal" onclick="opKP('${s.id}')">พิจารณา</button>
+      <button class="btn b-out" onclick="opM('${s.id}')">ดู/PDF</button>
+    </td>
+  </tr>`).join('');
+}
+function renderSV(){
+  const tb=document.getElementById('sv-tb');if(!tb)return;
+  const list=recs.filter(r=>['approved','in_progress','done'].includes(r.status)||r.kpAt);
+  if(!list.length){tb.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:36px;color:var(--dim)">รอประธาน คปอ.อนุมัติก่อน</td></tr>`;return;}
+  tb.innerHTML=list.map(s=>`<tr>
+    <td style="color:#ea580c;font-weight:700;font-size:11px">${sid(s.id)}</td>
+    <td>${s.name}</td><td style="color:var(--muted)">${s.department}</td>
+    <td style="font-size:11px;color:#0891b2;max-width:120px"><span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.kpComment||(s.kpAt?'อนุมัติแล้ว':'-')}</span></td>
+    <td>${sevb(s.severity)}</td>
+    <td style="white-space:nowrap;color:${s.deadline?'#dc2626':'var(--dim)'}">${s.deadline?fd(s.deadline):'-'}</td>
+    <td>${badge(s.status)}</td>
+    <td style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn b-orange" onclick="opSV('${s.id}')">ดำเนินการ/อัปเดต</button>
+      <button class="btn b-out" onclick="opM('${s.id}')">ดู/PDF</button>
+    </td>
+  </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════
+//  JP ACTIONS
+// ════════════════════════════════════════════════
+function opJP(id){
+  selJP=id;const s=recs.find(x=>x.id===id);if(!s)return;
+  document.getElementById('jp-apt').textContent='🗂️ ตรวจสอบ: '+s.name+' | '+fd(s.date);
+  document.getElementById('jp-ai').innerHTML=mkAI(s);
+  document.getElementById('jp-cmt').value=s.jpComment||'';
+  const sigTxt=document.getElementById('jp-sig-txt');
+  if(sigTxt){sigTxt.value=s.jpSig||'';updSigPreview('jp');}
+  document.getElementById('jp-ap').style.display='block';
+  document.getElementById('jp-ap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+async function jpDo(status){
+  if(!selJP)return;
+  const cmt=document.getElementById('jp-cmt').value.trim();
+  const sig=getSigText('jp');
+  const idx=recs.findIndex(r=>r.id===selJP);
+  if(idx>-1)recs[idx]={...recs[idx],status,jpComment:cmt,jpAt:td(),jpSig:sig};
+  await save();clap('jp-ap');renderAll();
+  toast('✅ บันทึกการตรวจสอบแล้ว','#ecfdf5','#059669');
+}
+
+// ════════════════════════════════════════════════
+//  KPAO ACTIONS
+// ════════════════════════════════════════════════
+function opKP(id){
+  selKP=id;const s=recs.find(x=>x.id===id);if(!s)return;
+  document.getElementById('kp-apt').textContent='🏛️ พิจารณา: '+s.name+' | '+fd(s.date);
+  document.getElementById('kp-ai').innerHTML=mkAI(s)+(s.jpComment?`<div style="grid-column:1/-1"><span class="ak">ความเห็น จป.</span><span class="av" style="color:#7c3aed">${s.jpComment}</span></div>`:'');
+  document.getElementById('kp-cmt').value=s.kpComment||'';
+  document.querySelectorAll('input[name="kpt"]').forEach(r=>r.checked=(r.value===(s.kpType||'rss')));
+  const sigTxt=document.getElementById('kp-sig-txt');
+  if(sigTxt){sigTxt.value=s.kpSig||'';updSigPreview('kp');}
+  document.getElementById('kp-ap').style.display='block';
+  document.getElementById('kp-ap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+async function kpDo(status){
+  if(!selKP)return;
+  const cmt=document.getElementById('kp-cmt').value.trim();
+  const tp=document.querySelector('input[name="kpt"]:checked')?.value||'rss';
+  const sig=getSigText('kp');
+  const idx=recs.findIndex(r=>r.id===selKP);
+  if(idx>-1)recs[idx]={...recs[idx],status,kpComment:cmt,kpAt:td(),kpType:tp,kpSig:sig};
+  await save();clap('kp-ap');renderAll();
+  toast(status==='approved'?'✅ อนุมัติ RSS เรียบร้อย':'❌ บันทึกการไม่อนุมัติ',status==='approved'?'#ecfdf5':'#fee2e2',status==='approved'?'#059669':'#dc2626');
+}
+
+// ════════════════════════════════════════════════
+//  SV ACTIONS
+// ════════════════════════════════════════════════
+function opSV(id){
+  selSV=id;svImg=null;const s=recs.find(x=>x.id===id);if(!s)return;
+  document.getElementById('sv-apt').textContent='👔 ดำเนินการ: '+s.name+' ('+sid(s.id)+')';
+  document.getElementById('sv-ai').innerHTML=mkAI(s);
+  const wrap=document.getElementById('sv-after-preview');
+  if(wrap){
+    if(s.afterFixImg&&s.afterFixImg.startsWith('data:')){
+      wrap.style.display='block';
+      wrap.innerHTML=`<div style="font-size:11px;font-weight:700;color:#ea580c;margin-bottom:4px">📷 รูปหลังแก้ไข (บันทึกไว้แล้ว)</div><img src="${s.afterFixImg}" style="max-width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1.5px solid #fed7aa"/>`;
+    }else wrap.style.display='none';
+  }
+  document.getElementById('sv-kpi').innerHTML=`
+    <div style="font-weight:700;color:#14532d;margin-bottom:5px">✅ อนุมัติโดย ประธาน คปอ. (${fd(s.kpAt)})</div>
+    <div style="font-size:13px">${s.kpComment||'อนุมัติ'}${s.kpType?` — <strong>${s.kpType==='rss'?'ให้เป็นหัวข้อ RSS และทำการปรับปรุง':'ให้เป็นหัวข้อ Comment'}</strong>`:''}</div>`;
+  document.getElementById('sv-as').value=s.assignee||'';
+  document.getElementById('sv-dl').value=s.deadline||'';
+  document.getElementById('sv-dn').value=s.doneDate||'';
+  document.getElementById('sv-dt').value=s.actionDetail||'';
+  document.getElementById('sv-nt').value=s.svNote||'';
+  document.getElementById('sv-ip').innerHTML='<div style="font-size:24px">📷</div><div style="font-size:11px;color:var(--dim);margin-top:2px">อัปโหลดรูปหลังแก้ไขใหม่</div>';
+  const logEl=document.getElementById('sv-log');
+  if(s.editLog?.length){
+    logEl.style.display='block';
+    document.getElementById('sv-logit').innerHTML=s.editLog.slice().reverse().map(l=>`
+      <div class="logit"><span style="font-weight:700;color:#9a3412">${l.note||'อัปเดต'}</span>
+      ${l.detail?`<div style="color:var(--muted);font-size:11px;margin-top:2px">${l.detail}</div>`:''}
+      <div style="font-size:10px;color:var(--dim);margin-top:2px">⏰ ${l.at}</div></div>`).join('');
+  }else logEl.style.display='none';
+  document.getElementById('sv-ap').style.display='block';
+  document.getElementById('sv-ap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+async function svSv(sc2){
+  if(!selSV)return;
+  const idx=recs.findIndex(r=>r.id===selSV);if(idx<0)return;
+  const s=recs[idx];
+  const det=document.getElementById('sv-dt').value.trim();
+  const note=document.getElementById('sv-nt').value.trim();
+  const log={at:now(),note:sc2==='done'?'ดำเนินการเสร็จสิ้น':'อัปเดตการดำเนินงาน',detail:det||note};
+  const upd={...s,
+    assignee:document.getElementById('sv-as').value.trim()||s.assignee,
+    deadline:document.getElementById('sv-dl').value||s.deadline,
+    doneDate:document.getElementById('sv-dn').value||s.doneDate,
+    actionDetail:det||s.actionDetail,svNote:note||s.svNote,
+    status:sc2,editLog:[...(s.editLog||[]),log]
+  };
+  if(svImg)upd.afterFixImg=svImg;
+  recs[idx]=upd;
+  await save();clap('sv-ap');renderAll();
+  toast(sc2==='done'?'🏆 ดำเนินการเสร็จสิ้น!':'💾 อัปเดตเรียบร้อย','#fff7ed','#ea580c');
+}
+
+// ════════════════════════════════════════════════
+//  MISC
+// ════════════════════════════════════════════════
+function mkAI(s){
+  const hasB=s.beforeImg&&s.beforeImg.startsWith('data:');
+  const aftSrc=(s.afterFixImg&&s.afterFixImg.startsWith('data:'))?s.afterFixImg:(s.afterImg&&s.afterImg.startsWith('data:')?s.afterImg:null);
+  const imgRow=(hasB||aftSrc)?`
+    <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#1a3a8f;margin-bottom:4px">📷 รูปภาพ ก่อน</div>
+        ${hasB?`<img src="${s.beforeImg}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1.5px solid #bfdbfe"/>`:'<div style="height:70px;background:#f1f5f9;border-radius:8px;border:1.5px dashed #cbd5e1;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:12px">ไม่มีรูป</div>'}
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:4px">📷 รูปภาพ หลัง${s.afterFixImg&&s.afterFixImg.startsWith('data:')?'<span style="color:#059669;margin-left:4px">(หลังแก้ไข)</span>':''}</div>
+        ${aftSrc?`<img src="${aftSrc}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1.5px solid #e9d5ff"/>`:'<div style="height:70px;background:#f1f5f9;border-radius:8px;border:1.5px dashed #cbd5e1;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:12px">ไม่มีรูป</div>'}
+      </div>
+    </div>`:'';
+  return `
+    <div><span class="ak">ชื่อ-นามสกุล</span><span class="av">${s.name}</span></div>
+    <div><span class="ak">แผนก</span><span class="av">${s.department}</span></div>
+    <div><span class="ak">วันที่</span><span class="av">${fd(s.date)}</span></div>
+    <div><span class="ak">พื้นที่</span><span class="av">${s.system||'-'}</span></div>
+    <div><span class="ak">ระดับ</span><span class="av" style="color:${sc(s.severity)}">${s.severity?'ระดับ '+s.severity:'-'}</span></div>
+    <div><span class="ak">สถานะ</span><span class="av">${SCFG[s.status]?.l||s.status}</span></div>
+    ${s.suggestion?`<div style="grid-column:1/-1"><span class="ak">ข้อเสนอแนะ</span><span class="av">${s.suggestion}</span></div>`:''}
+    ${imgRow}`;
+}
+function clap(id){document.getElementById(id).style.display='none';selJP=null;selKP=null;selSV=null;}
+function toast(msg,bg,color){
+  const t=document.createElement('div');t.className='tfl';t.textContent=msg;
+  t.style.cssText=`background:${bg};color:${color};border:1.5px solid ${color};`;
+  document.body.appendChild(t);setTimeout(()=>{if(t.parentNode)t.parentNode.removeChild(t);},3000);
+}
+
+// ════════════════════════════════════════════════
+//  MODAL
+// ════════════════════════════════════════════════
+function opM(id){
+  midId=id;const s=recs.find(x=>x.id===id);if(!s)return;
+  document.getElementById('mt').textContent='📄 RSS '+sid(s.id)+' — '+s.name;
+  document.getElementById('mb').innerHTML=buildPDF(s);
+  document.getElementById('movl').classList.add('on');
+}
+function clM(){document.getElementById('movl').classList.remove('on');}
+document.getElementById('movl').addEventListener('click',function(e){if(e.target===this)clM();});
+document.getElementById('fb-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('on');});
+
+// ════════════════════════════════════════════════
+//  PRINT
+// ════════════════════════════════════════════════
+function doPrint(){
+  const s=recs.find(x=>x.id===midId);if(!s)return;
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>RSS ${sid(s.id)}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Sarabun',sans-serif;background:#fff;}
+    @page{size:A4 portrait;margin:6mm;}
+    @media print{body{padding:0;}-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    ${pfCSS()}
+  </style></head><body>${buildPDF(s,true)}</body></html>`);
+  w.document.close();setTimeout(()=>w.print(),800);
+}
+function pfCSS(){return`.pf{font-family:'Sarabun',sans-serif;font-size:12px;color:#000;background:#fff;border:2px solid #333;width:100%;}.ph{background:linear-gradient(to right,#1a3a8f,#2b5ce6);display:flex;align-items:stretch;}.ph-logo{background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 12px;min-width:68px;}.ph-aam{font-weight:900;font-size:17px;color:#1a3a8f;letter-spacing:1px;border:2px solid #1a3a8f;padding:2px 6px;border-radius:2px;}.ph-tri{width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:12px solid #1a3a8f;margin-top:3px;}.ph-t{flex:1;display:flex;align-items:center;justify-content:center;padding:10px;}.ph-t span{font-size:28px;font-weight:900;color:#fff;letter-spacing:2px;font-style:italic;text-shadow:1px 1px 3px rgba(0,0,0,.3);}.pr1{display:grid;grid-template-columns:3fr 2fr 2fr 1.5fr;border-bottom:1px solid #555;}.pr1c{padding:5px 9px;border-right:1px solid #555;}.pr1c:last-child{border-right:none;}.pul{font-size:11px;color:#222;text-decoration:underline;font-weight:600;}.pval{border-bottom:1px solid #000;min-height:17px;padding-bottom:2px;margin-top:2px;font-size:12.5px;font-weight:600;}.pr2{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #555;}.pr2c{padding:5px 9px;border-right:1px solid #555;}.pr2c:last-child{border-right:none;}.pslbl{font-weight:700;font-size:11.5px;text-decoration:underline;color:#000;margin-bottom:3px;}.pline{border-bottom:1px solid #666;min-height:17px;padding-bottom:2px;font-size:12px;}.pr3{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #555;}.pr3L{padding:5px 9px;border-right:1px solid #555;}.pr3R{padding:5px 9px;}.pcbg{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin-bottom:6px;}.pcbi{display:flex;align-items:center;gap:4px;font-size:11px;}.pcb{width:11px;height:11px;border:1px solid #333;display:inline-flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;background:#fff;}.pcb.ck{background:#1a3a8f;color:#fff;}.psevlbl{font-size:11px;font-weight:700;margin:4px 0 3px;}.psevi{display:flex;align-items:center;gap:5px;font-size:11px;margin-bottom:2px;}.pr4{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #555;}.pr4c{padding:6px 9px;border-right:1px solid #555;text-align:center;display:flex;flex-direction:column;align-items:center;min-height:200px;}.pr4c:last-child{border-right:none;}.pimlbl{font-size:38px;font-weight:900;color:#1a3a8f;font-style:italic;display:block;margin-bottom:5px;}.pimph{border:1px solid #bbb;width:100%;flex:1;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:13px;background:#f9f9f9;min-height:152px;}.pimact{max-width:100%;max-height:168px;object-fit:contain;display:block;}.pavr{display:flex;align-items:center;gap:7px;padding:5px 9px;border-bottom:1px solid #bbb;font-size:12px;}.pjpr{padding:4px 9px;border-bottom:1px solid #ccc;background:#f3e8ff;font-size:11px;}.pext{padding:4px 9px;border-bottom:1px solid #ccc;background:#fffde7;font-size:11px;}.plog{padding:4px 9px;border-bottom:1px solid #ccc;background:#fff3e0;font-size:10px;}.psgr{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid #555;}.psgc{padding:6px 9px;text-align:center;border-right:1px solid #555;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;}.psgc:last-child{border-right:none;}.psgtx{font-size:24px;font-style:italic;font-weight:700;color:#1a3a8f;letter-spacing:2px;display:block;margin-bottom:3px;}.psgdt{font-size:10px;color:#555;margin-bottom:3px;}.psgln{border-top:1px solid #333;padding-top:3px;font-size:11px;font-weight:700;width:100%;text-align:center;}.pft{display:flex;justify-content:space-between;padding:3px 9px;background:#ebebeb;font-size:10px;color:#555;}`;}
+
+// ════════════════════════════════════════════════
+//  BUILD PDF
+// ════════════════════════════════════════════════
+function buildPDF(s,forPrint=false){
+  const cb=chk=>`<div class="pcb${chk?' ck':''}">${chk?'✓':''}</div>`;
+  const dGrid=`<div class="pcbg">${DOPT.map((o,i)=>`<div class="pcbi">${cb((s.dangerTypes||[]).includes(o))}<span>${i+1}. ${o}</span></div>`).join('')}</div>`;
+  const sevRows=[['A','ตาย พิการ หรือสูญเสียอวัยวะ'],['B','บาดเจ็บ หรือหยุดการผลิต'],['C','บาดเจ็บเล็กน้อย (ไม่หยุดงาน) หรือไม่หยุดการผลิต']]
+    .map(([lv,ds])=>`<div class="psevi">${cb(s.severity===lv)}<strong>ระดับ ${lv} :</strong><span>${ds}</span></div>`).join('');
+  const imgBfr=s.beforeImg&&s.beforeImg.startsWith('data:')?`<img src="${s.beforeImg}" class="pimact" style="-webkit-print-color-adjust:exact;print-color-adjust:exact"/>`:`<div class="pimph">รูปภาพ</div>`;
+  const aftSrc=(s.afterFixImg&&s.afterFixImg.startsWith('data:'))?s.afterFixImg:(s.afterImg&&s.afterImg.startsWith('data:')?s.afterImg:null);
+  const imgAft=aftSrc?`<img src="${aftSrc}" class="pimact" style="-webkit-print-color-adjust:exact;print-color-adjust:exact"/>`:`<div class="pimph">รูปภาพ</div>`;
+  const apvRSS=s.status==='approved'&&s.kpType!=='comment';
+  const apvCmt=s.status==='approved'&&s.kpType==='comment';
+  const apvRej=s.status==='rejected';
+  const jpRow=s.jpComment?`<div class="pjpr"><strong>จป.วิชาชีพ (${fd(s.jpAt)}):</strong> ${s.jpComment}</div>`:'';
+  const extRow=(s.assignee||s.deadline||s.actionDetail)?`<div class="pext">
+    ${s.assignee?`<strong>ผู้รับผิดชอบ:</strong> ${s.assignee}&emsp;`:''}
+    ${s.deadline?`<strong>กำหนดแล้วเสร็จ:</strong> ${fd(s.deadline)}&emsp;`:''}
+    ${s.doneDate?`<strong>เสร็จแล้วเมื่อ:</strong> ${fd(s.doneDate)}`:''}
+    ${s.actionDetail?`<br><strong>วิธีการแก้ไข:</strong> ${s.actionDetail}`:''}
+  </div>`:'';
+  const logRow=s.editLog?.length?`<div class="plog"><strong>ประวัติ:</strong> ${s.editLog.map(l=>`[${l.at}] ${l.note}${l.detail?' — '+l.detail:''}`).join(' · ')}</div>`:'';
+  // ลายเซ็นแบบพิมพ์ชื่อ
+  const jpSigDisp=s.jpSig?`<span class="psgtx">${s.jpSig}</span>`:'<div style="flex:1;min-height:38px"></div>';
+  const kpSigDisp=s.kpSig?`<span class="psgtx">${s.kpSig}</span>`:'<div style="flex:1;min-height:38px"></div>';
+  const styleTag=forPrint?'':`<style>${pfCSS()}</style>`;
+  return`${styleTag}
+<div class="pf">
+  <div class="ph">
+    <div class="ph-logo"><div class="ph-aam">AAM</div><div class="ph-tri"></div></div>
+    <div class="ph-t"><span>RSS : Risk Safety Suggestion</span></div>
+  </div>
+  <div class="pr1">
+    <div class="pr1c"><div class="pul">ชื่อ - นามสกุล</div><div class="pval">${s.name||''}</div></div>
+    <div class="pr1c"><div class="pul">รหัสพนักงาน</div><div class="pval">${s.empId||''}</div></div>
+    <div class="pr1c"><div class="pul">แผนก</div><div class="pval">${s.department||''}</div></div>
+    <div class="pr1c"><div class="pul">วันที่</div><div class="pval">${fd(s.date)}</div></div>
+  </div>
+  <div class="pr2">
+    <div class="pr2c"><div class="pslbl">1. ระบุงานที่ทำ และพื้นที่ปฏิบัติงาน</div><div class="pline">${s.system||''}</div></div>
+    <div class="pr2c"><div class="pslbl">2. ระบุเครื่องจักร /อุปกรณ์ ที่ทำให้เกิดอันตราย</div><div class="pline">${s.equipment||''}</div></div>
+  </div>
+  <div class="pr3">
+    <div class="pr3L">
+      <div class="pslbl">3. ระบุอันตรายที่เกิด และอวัยวะที่จะได้รับอันตราย (stop 6 type)</div>
+      ${dGrid}
+      <div class="psevlbl">การประเมินความรุนแรง</div>
+      <div style="margin-left:8px">${sevRows}</div>
+    </div>
+    <div class="pr3R">
+      <div class="pslbl">4. ผู้ปฏิบัติงานทำการเสนอแนะ เพื่อปรับปรุง</div>
+      <div style="min-height:95px;font-size:12px;line-height:1.7;padding:2px 0">${s.suggestion||''}</div>
+    </div>
+  </div>
+  <div class="pr4">
+    <div class="pr4c"><span class="pimlbl">ก่อน</span>${imgBfr}</div>
+    <div class="pr4c"><span class="pimlbl">หลัง</span>${imgAft}</div>
+  </div>
+  ${jpRow}
+  ${extRow}
+  <div class="pavr">${cb(apvRSS)}<span style="text-decoration:underline;font-weight:600">อนุมัติ ให้เป็นหัวข้อ RSS และทำการปรับปรุง</span></div>
+  <div class="pavr">${cb(apvCmt)}<span style="text-decoration:underline;font-weight:600">อนุมัติ ให้เป็นหัวข้อ Comment</span></div>
+  <div class="pavr">${cb(apvRej)}<span style="text-decoration:underline;font-weight:600">ไม่อนุมัติ เนื่องจาก</span>${apvRej&&s.kpComment?`<span style="color:#cc0000;margin-left:6px">${s.kpComment}</span>`:''}</div>
+  ${logRow}
+  <div class="psgr">
+    <div class="psgc">${jpSigDisp}${s.jpAt?`<div class="psgdt">วันที่ ${fd(s.jpAt)}</div>`:''}<div class="psgln">จป.วิชาชีพ</div></div>
+    <div class="psgc">${kpSigDisp}${s.kpAt?`<div class="psgdt">วันที่ ${fd(s.kpAt)}</div>`:''}<div class="psgln">ประธาน คปอ.</div></div>
+    <div class="psgc"><div style="flex:1;min-height:38px">${s.doneDate?`<div class="psgdt">วันที่ ${fd(s.doneDate)}</div>`:''}</div><div class="psgln">ประธานกิจกรรม RSS</div></div>
+  </div>
+  <div class="pft"><span>DAR NO.: SF-24-002</span><span>DOC. NO.: FM-SF-001 Rev.:04 &nbsp;&nbsp; Effective Date: 12/02/2024</span></div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════
+//  RENDER ALL & INIT
+// ════════════════════════════════════════════════
+function renderAll(){renderDB();renderJP();renderKP();renderSV();}
+
+document.getElementById('fdt').value=td();
+if(fbUrl){
+  updFBStatus();
+  document.getElementById('fb-url-inp').value=fbUrl;
+}
+updFBStatus();
+load();
+sf('all');
+setInterval(load,8000);
+</script>
+</body>
+</html>
